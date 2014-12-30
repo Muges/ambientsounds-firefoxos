@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "name": "AmbientSounds",
+  "description": "Ambient sound player",
+  "launch_path": "/app/index.html",
+  "icons": {
+    "16": "/app/icons/icon-16.png",
+    "48": "/app/icons/icon-48.png",
+    "128": "/app/icons/icon-128.png"
+  },
+  "developer": {
+    "name": "Muges",
+    "url": "https://github.com/Muges"
+  },
+  "default_locale": "en",
+  "permissions": {
+    "audio-channel-content": {"description":  "Use the audio channel for a music player"}
+  }
+}
