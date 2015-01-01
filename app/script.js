@@ -105,14 +105,10 @@ function create_player(sound, parent, master) {
 
 function create_master(parent) {
     var form = $(document.createElement("form"));
-    /*var label = $(document.createElement("div"));
-    label.addClass("label");
-    label.text("Volume");*/
     
     var range = $(document.createElement("div"));
     
     parent.append(form);
-    //form.append(label);
     form.append(range);
     
     range.noUiSlider({
