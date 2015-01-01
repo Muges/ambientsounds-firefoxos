@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "name": "AmbientSounds",
-  "description": "Ambient sounds player",
+  "description": "Ambient sounds player inspired by Noizio, A Soft Murmur, etc...",
   "launch_path": "/app/index.html",
   "icons": {
     "32": "/icons/icon-32.png",
