@@ -1,12 +1,13 @@
 {
   "version": "0.1",
   "name": "AmbientSounds",
-  "description": "Ambient sound player",
+  "description": "Ambient sounds player",
   "launch_path": "/app/index.html",
   "icons": {
-    "16": "/app/icons/icon-16.png",
-    "48": "/app/icons/icon-48.png",
-    "128": "/app/icons/icon-128.png"
+    "32": "/app/icons/icon-32.png",
+    "64": "/app/icons/icon-64.png",
+    "128": "/app/icons/icon-128.png",
+    "512": "/app/icons/icon-512.png"
   },
   "developer": {
     "name": "Muges",
@@ -14,6 +15,6 @@
   },
   "default_locale": "en",
   "permissions": {
-    "audio-channel-content": {"description":  "Use the audio channel for a music player"}
+    "audio-channel-content": {"description":  "Use the audio channel for an ambient sounds player"}
   }
 }

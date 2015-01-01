@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+   xmlns="http://www.w3.org/2000/svg" version="1.1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="600"
+   height="600">
+  <defs>
+    <symbol id="appLogoUnderlay" viewBox="0 0 600 600">
+        <linearGradient
+           id="diagonalAlpha"
+           x1="257" y1="586.84"
+           x2="514.66" y2="105"
+           gradientUnits="userSpaceOnUse">
+          <stop
+             style="stop-color:#000000;stop-opacity:0.341;"
+             offset="0" />
+          <stop
+             style="stop-color:#000000;stop-opacity:0.078;"
+             offset="1" />
+        </linearGradient>
+        <linearGradient
+           id="strokeGrad"
+           x1="50" y1="50"
+           x2="550" y2="550"
+           gradientUnits="userSpaceOnUse">
+          <stop
+             style="stop-color:#C7C7C7;stop-opacity:1;"
+             offset="0" />
+          <stop
+             style="stop-color:#BBBBBB;stop-opacity:1;"
+             offset="1" />
+        </linearGradient>
+        <filter id="f1" x="0" y="0">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
+        </filter>
+        <circle
+           cx="300" cy="300" r="290"
+           filter="url(#f1)"
+           style="fill:#C7C7C7;stroke:url(#strokeGrad);stroke-width:9;fill-opacity:1" />
+        <path
+           style="fill:url(#diagonalAlpha);stroke:none;fill-opacity:1" 
+           d="M 257,586.84 A 323,323 0 0 1 514.66,105 A 290,290 0 0 1 257,586.84 Z"
+           id="path3831" />
+    </symbol>
+  </defs>
+  <use xlink:href="#appLogoUnderlay" x="10" y="10" width="580" height="580" />
+</svg>
