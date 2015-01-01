@@ -30,3 +30,6 @@ function print_sounds {
 }
 
 print_sounds > app/sounds.js
+
+rm -f ambientsounds.zip
+zip ambientsounds.zip -r app icons manifest.webapp -x "*.git*"
