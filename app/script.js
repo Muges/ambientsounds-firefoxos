@@ -54,11 +54,11 @@ Loop.prototype.callback = function() {
 }
 
 /*
- * Set the volume of the audio file (between 0 and 100)
+ * Set the volume of the audio file (between 0 and 1)
  */
 Loop.prototype.setVolume = function(volume) {
-    this.player[0].volume = volume/100;
-    this.player[1].volume = volume/100;
+    this.player[0].volume = volume;
+    this.player[1].volume = volume;
     if (this.timeout == null && volume > 0) {
         this.callback();
     } else if (this.timeout != null && volume == 0) {
@@ -68,7 +68,7 @@ Loop.prototype.setVolume = function(volume) {
     }
 }
 
-function create_player(sound) {
+function create_player(sound, parent, master) {
     // Create the volume slider and its label and add them to the page
     var form = $(document.createElement("form"));
     form.addClass("sound");
@@ -78,7 +78,7 @@ function create_player(sound) {
     
     var range = $(document.createElement("div"));
     
-    this.append(form);
+    parent.append(form);
     form.append(label);
     form.append(range);
     
@@ -87,21 +87,52 @@ function create_player(sound) {
         behaviour: 'snap',
         connect: 'lower',
         range: {
-            'min': [   0 ],
-            'max': [ 100 ]
-        }
+            'min': [ 0 ],
+            'max': [ 1 ]
+        },
+        step: 0.01
     });
 
     // Load the sound
     var loop = new Loop(sound.filename, sound.length);
     
     callback = function() {
-        loop.setVolume(range.val());
+        loop.setVolume(range.val()*master.val());
     };
-    
     range.on('slide', callback);
+    master.on('slide', callback);
+}
+
+function create_master(parent) {
+    var form = $(document.createElement("form"));
+    /*var label = $(document.createElement("div"));
+    label.addClass("label");
+    label.text("Volume");*/
+    
+    var range = $(document.createElement("div"));
+    
+    parent.append(form);
+    //form.append(label);
+    form.append(range);
+    
+    range.noUiSlider({
+        start: [ 1 ],
+        behaviour: 'snap',
+        connect: 'lower',
+        range: {
+            'min': [ 0 ],
+            'max': [ 1 ]
+        },
+        step: 0.01
+    });
+    
+    return range
 }
 
 window.onload = function() {
-    sounds.forEach(create_player, $("body"));
+    master = create_master($("#master"));
+    
+    for (var i = 0, len = sounds.length; i < len; i++) {
+        create_player(sounds[i], $("#sounds"), master);
+    }
 }

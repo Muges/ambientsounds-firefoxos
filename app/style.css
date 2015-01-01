@@ -3,11 +3,27 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 .sound {
     border-bottom: solid 1px black;
-    padding: 0.8em;
+    padding: 12px;
+}
+
+#master {
+    padding: 12px;
+    background: grey;
+    height: 40px;
+}
+
+#sounds {
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
 }
 
 .noUi-horizontal {
