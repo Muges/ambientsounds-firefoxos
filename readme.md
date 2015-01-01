@@ -3,6 +3,8 @@
 Firefox OS version of [AmbientSounds](https://github.com/Muges/ambientsounds),
 an ambient sound player inspired by Noizio, A Soft Murmur, etc...
 
+Icon by [Max Randall](http://www.maxrandall.com/)
+
 ## Sounds
 
 The original sound files are listed below.

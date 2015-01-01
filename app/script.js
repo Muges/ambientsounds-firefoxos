@@ -70,33 +70,38 @@ Loop.prototype.setVolume = function(volume) {
 
 function create_player(sound) {
     // Create the volume slider and its label and add them to the page
-    var form = document.createElement("form");
-    form.className = "sound";
-    var label = document.createElement("div");
-    label.className = "label";
-    label.innerHTML = sound.name;
-    var range = document.createElement("input");
-    range.className = "range";
-    range.type = "range";
-    range.min = 0;
-    range.max = 100;
-    range.value = 0;
-    range.id = sound.filename;
+    var form = $(document.createElement("form"));
+    form.addClass("sound");
+    var label = $(document.createElement("div"));
+    label.addClass("label");
+    label.text(sound.name);
     
-    document.body.appendChild(form);
-    form.appendChild(label);
-    form.appendChild(range);
+    var range = $(document.createElement("div"));
     
+    this.append(form);
+    form.append(label);
+    form.append(range);
+    
+    range.noUiSlider({
+        start: [ 0 ],
+        behaviour: 'snap',
+        connect: 'lower',
+        range: {
+            'min': [   0 ],
+            'max': [ 100 ]
+        }
+    });
+
     // Load the sound
     var loop = new Loop(sound.filename, sound.length);
     
     callback = function() {
-        loop.setVolume(range.value);
+        loop.setVolume(range.val());
     };
-    range.addEventListener("input", callback);
-    range.addEventListener("change", callback);
+    
+    range.on('slide', callback);
 }
 
 window.onload = function() {
-    sounds.forEach(create_player);
+    sounds.forEach(create_player, $("body"));
 }
