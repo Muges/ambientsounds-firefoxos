@@ -13,6 +13,11 @@ the [ambientsounds](https://github.com/Muges/ambientsounds) repository.
 
 ## Changelog
 
+### 0.2.1
+
+- Fixed Heavy Rain sound
+- Added Wind sound
+
 ### 0.2.0
 
 Switched to Web Audio Api
