@@ -16,11 +16,7 @@ function print_sounds {
         # Name
         echo -n "name: \""
         ogginfo $f | grep "TITLE" | awk "{sub(/\\s+TITLE=/, \"\", \$0); printf(\$0)}"
-        echo -n "\", "
-        
-        # Length
-        echo -n "length: "
-        sox "$f" -n stats 2>&1| grep "Length" | awk "{gsub(/[a-zA-Z\\. ]/, \"\", \$0);printf(\$0);}"
+        echo -n "\""
         
         echo "},"
     done

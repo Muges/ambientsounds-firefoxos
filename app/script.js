@@ -39,10 +39,9 @@ masterGainNode.connect(context.destination);
  * Object used to seamlessly loop an audio file using the Web Audio API
  * (it should work on most recent browsers)
  */
-function Loop(filename, length) {
+function Loop(filename) {
     var self = this;
     
-    self.length = length;
     self.filename = filename
     self.loaded = false;
     self.playing = false;
@@ -96,7 +95,7 @@ Loop.prototype.setVolume = function(volume) {
 }
 
 function create_player(sound, parent) {
-    var loop = new Loop(sound.filename, sound.length);
+    var loop = new Loop(sound.filename);
     
     var form = $(document.createElement("form"));
     form.addClass("sound");
