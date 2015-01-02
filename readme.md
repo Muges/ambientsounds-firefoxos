@@ -10,3 +10,13 @@ The application's icon was based on an icon by
 
 The sound files, as well as their licenses and authors are available in
 the [ambientsounds](https://github.com/Muges/ambientsounds) repository.
+
+## Changelog
+
+### 0.2.0
+
+Switched to Web Audio Api
+
+### 0.1.0
+
+First working version
