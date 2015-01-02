@@ -1,6 +1,6 @@
-/* 
+/*
  *  Copyright (c) 2014-2015 Muges
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation files
  * (the "Software"), to deal in the Software without restriction,
@@ -8,10 +8,10 @@
  * publish, distribute, sublicense, and/or sell copies of the Software,
  * and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,64 +22,94 @@
  * SOFTWARE.
  */
 
+// Create the audio context
+var context
+if (typeof(window.AudioContext) != "undefined") {
+    context = new AudioContext("content");
+} else {
+    context = new WebkitAudioContext();
+}
+
+// Create the master volume control node and connect it to the
+// destination
+var masterGainNode = context.createGain();
+masterGainNode.connect(context.destination);
+
 /*
- * Object used to seamlessly loop an audio file (this should work on
- * Firefox)
+ * Object used to seamlessly loop an audio file using the Web Audio API
+ * (it should work on most recent browsers)
  */
 function Loop(filename, length) {
-    this.length = length;
-    this.player = [document.createElement("audio"),
-                   document.createElement("audio")];
-    this.current = 0;
+    var self = this;
     
-    this.player[0].src = filename;
-    this.player[1].src = filename;
-    this.player[0].setAttribute("mozaudiochannel", "content");
-    this.player[1].setAttribute("mozaudiochannel", "content");
-    this.player[0].volume = 0;
-    this.player[1].volume = 0;
+    self.length = length;
+    self.filename = filename
+    self.loaded = false;
+    self.playing = false;
     
-    this.timeout = null;
+    self.sourceNode = context.createBufferSource();
+    self.sourceNode.loop = true;
+    self.gainNode = context.createGain();
+    
+    self.sourceNode.connect(self.gainNode);
+    self.gainNode.connect(masterGainNode);
 }
 
 /*
- * Callback called to start the playback
+ * Load the audio file in the buffer of the source node
  */
-Loop.prototype.callback = function() {
-    this.current = 1 - this.current;
+Loop.prototype.load = function() {
+    var self = this;
     
-    this.player[this.current].play();
-    
-    this.timeout = setTimeout(this.callback.bind(this), this.length-25);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', this.filename, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+        context.decodeAudioData(xhr.response, function(buffer) {
+            if (buffer) {
+                self.loaded = true;
+                self.sourceNode.buffer = buffer;
+            }
+        });
+    };
+    xhr.send();
 }
 
 /*
  * Set the volume of the audio file (between 0 and 1)
  */
 Loop.prototype.setVolume = function(volume) {
-    this.player[0].volume = volume;
-    this.player[1].volume = volume;
-    if (this.timeout == null && volume > 0) {
-        this.callback();
-    } else if (this.timeout != null && volume == 0) {
-        this.player[this.current].pause();
-        clearTimeout(this.timeout);
-        this.timeout = null;
+    var self = this;
+    
+    self.gainNode.gain.value = volume;
+    
+    if (!self.playing && volume > 0) {
+        if (!self.loaded) {
+            self.load();
+        }
+        self.playing = true;
+        self.sourceNode.start(0);
+    } else if (self.playing && volume == 0) {
+        self.sourceNode.stop();
+        self.playing = false;
     }
 }
 
-function create_player(sound, parent, master) {
-    // Create the volume slider and its label and add them to the page
+function create_player(sound, parent) {
+    var loop = new Loop(sound.filename, sound.length);
+    
     var form = $(document.createElement("form"));
     form.addClass("sound");
+    parent.append(form);
+    
+    // Display the name of the sound
     var label = $(document.createElement("div"));
     label.addClass("label");
     label.text(sound.name);
-    
-    var range = $(document.createElement("div"));
-    
-    parent.append(form);
     form.append(label);
+
+    // Volume slider
+    var range = $(document.createElement("div"));
     form.append(range);
     
     range.noUiSlider({
@@ -92,25 +122,18 @@ function create_player(sound, parent, master) {
         },
         step: 0.01
     });
-
-    // Load the sound
-    var loop = new Loop(sound.filename, sound.length);
-    
-    callback = function() {
-        loop.setVolume(range.val()*master.val());
-    };
-    range.on('slide', callback);
-    master.on('slide', callback);
+    range.on('slide', function() {
+        loop.setVolume(range.val());
+    });
 }
 
 function create_master(parent) {
     var form = $(document.createElement("form"));
-    
-    var range = $(document.createElement("div"));
-    
     parent.append(form);
+
+    var range = $(document.createElement("div"));
     form.append(range);
-    
+
     range.noUiSlider({
         start: [ 1 ],
         behaviour: 'snap',
@@ -121,14 +144,15 @@ function create_master(parent) {
         },
         step: 0.01
     });
-    
-    return range
+    range.on('slide', function() {
+        masterGainNode.gain.value = range.val();
+    });
 }
 
 window.onload = function() {
     master = create_master($("#master"));
-    
+
     for (var i = 0, len = sounds.length; i < len; i++) {
-        create_player(sounds[i], $("#sounds"), master);
+        create_player(sounds[i], $("#sounds"));
     }
 }
