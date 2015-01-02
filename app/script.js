@@ -23,7 +23,7 @@
  */
 
 // Create the audio context
-var context
+var context;
 if (typeof(window.AudioContext) != "undefined") {
     context = new AudioContext("content");
 } else {

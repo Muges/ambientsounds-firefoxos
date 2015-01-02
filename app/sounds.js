@@ -4,4 +4,5 @@ sounds = [
     {filename: "sounds/heavy-rain.ogg", name: "Heavy Rain"},
     {filename: "sounds/stream.ogg", name: "Stream"},
     {filename: "sounds/thunderstorm.ogg", name: "Thunderstorm"},
+    {filename: "sounds/wind.ogg", name: "Wind"},
 ]
