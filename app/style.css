@@ -9,23 +9,29 @@ html, body {
     font-family: Fira Sans, Tahoma, Geneva, sans-serif;
 }
 
-.sound {
-    border-bottom: solid 1px #C7C7C7;
-    padding: 12px 0;
-    margin: 0 12px;
-}
-
-.sound:last-child {
-    border: none;
-}
-
-#master {
+.header {
     padding: 12px;
     background: #333333;
     height: 36px;
+    display: flex;
+    align-items: center;
 }
 
-#sounds {
+.header .icon {
+    display: inline-block;
+    margin-left: 12px;
+    width: 36px;
+    height: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.header .range {
+    flex-grow: 1;
+}
+
+.content {
     position: absolute;
     top: 60px;
     bottom: 0;
@@ -37,7 +43,39 @@ html, body {
 .noUi-horizontal {
     margin: 10px 17px;
 }
-
 .noUi-connect {
     background: #00AACC;
+}
+
+
+.sound {
+    border-bottom: solid 1px #C7C7C7;
+    padding: 12px 0;
+    margin: 0 12px;
+}
+
+.sound:last-child {
+    border: none;
+}
+
+#credits-icon {
+    background-image: url(icons/info.svg);
+}
+
+#back-icon {
+    background-image: url(icons/back.svg);
+}
+
+#credits {
+    padding: 20px;
+}
+
+.appinfo {
+    text-align: center;
+}
+
+.appicon {
+    max-width: 50%;
+    width: 100px;
+    margin-top: 20px;
 }

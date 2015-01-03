@@ -94,12 +94,12 @@ Loop.prototype.setVolume = function(volume) {
     }
 }
 
-function create_player(sound, parent) {
+function add_sound(sound) {
     var loop = new Loop(sound.filename);
     
     var form = $(document.createElement("form"));
     form.addClass("sound");
-    parent.append(form);
+    $("#sounds").append(form);
     
     // Display the name of the sound
     var label = $(document.createElement("div"));
@@ -124,11 +124,22 @@ function create_player(sound, parent) {
     range.on('slide', function() {
         loop.setVolume(range.val());
     });
+    
+    // Credits
+    var item = $(document.createElement("li"));
+    $("#soundsinfo").append(item);
+    
+    var link = $(document.createElement("a"));
+    link.attr("href", sound.url);
+    link.attr("target", "_blank");
+    link.text(sound.name+" by "+sound.author+" ("+sound.license+")");
+    item.append(link);
 }
 
-function create_master(parent) {
+function create_master_slider() {
     var form = $(document.createElement("form"));
-    parent.append(form);
+    form.addClass("range");
+    $("#master").prepend(form);
 
     var range = $(document.createElement("div"));
     form.append(range);
@@ -148,10 +159,29 @@ function create_master(parent) {
     });
 }
 
+function show_credits() {
+    $("#sounds").hide();
+    $("#credits").show();
+    $("#credits-icon").hide();
+    $("#back-icon").show();
+}
+
+function show_sounds() {
+    $("#credits").hide();
+    $("#sounds").show();
+    $("#back-icon").hide();
+    $("#credits-icon").show();
+}
+
 window.onload = function() {
-    master = create_master($("#master"));
+    show_sounds();
+    
+    $("#credits-icon").click(show_credits);
+    $("#back-icon").click(show_sounds);
+    
+    create_master_slider();
 
     for (var i = 0, len = sounds.length; i < len; i++) {
-        create_player(sounds[i], $("#sounds"));
+        add_sound(sounds[i]);
     }
 }
