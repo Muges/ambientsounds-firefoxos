@@ -3,7 +3,7 @@
 Ambient sound player for Firefox OS (or Android) inspired by Noizio, A
 Soft Murmur, etc...
 
-The application's icon was based on an icon by
+The application's icon is based on an icon by
 [Max Randall](http://www.maxrandall.com/).
 
 ## Sounds
